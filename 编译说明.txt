@@ -1,0 +1,16 @@
+编译前指定处理器架构
+GOARCH指的是目标处理器的架构，处理器架构 arm、arm64、386、amd64、ppc64、ppc64le、mips64、mips64le、s390x
+win系统下执行以下命令为指定处理器架构为amd64
+set GOARCH=amd64
+linux系统下执行以下命令为指定处理器架构为amd64
+GOARCH=amd64
+
+编译前指定目标操作系统
+GOOS指的是目标操作系统，操作系统为 darwin、freebsd、linux、windows、android、dragonfly、netbsd、openbsd、plan9、solaris
+win系统下执行以下命令为指定目标操作系统为linux
+set GOOS=linux
+linux系统下执行以下命令为指定目标操作系统为linux
+GOOS=linux
+
+编译命令
+go build -o XDD-plus
