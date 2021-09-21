@@ -1,0 +1,32 @@
+mode: parallel #默认模式 parallel(平行模式)
+containers: #容器配置
+  - address: http://xxx.xxx.xxx.xxx:5700 #青龙、v4访问地址
+    username: admin #用户名
+    password: admin #密码
+    cid: admin
+    secret: admin
+    weigth:  #权重
+    mode: parallel #单独容器模式设置
+    limit: 49 #限制容器ck数目
+AtTime:  #填写1-12之间的数  填错自负默认为10  10点容易出现高峰超时。
+IsHelp:   #填写true或者false  false
+IsOldV4: #填写true或者false  false是否新版或者旧版V4
+theme:  #自定义主题，支持本地、网络路径
+static: ./static #静态文件 便于引入css、js等文件
+#master为管理员账户密码
+master: xxxx 
+database: /ql/config/XDD.db #数据库位置
+qywx_key:  #企业微信推送key
+daily_push:  #定时任务
+resident:
+user_agent:  #自定义ua
+telegram_bot_token:  #telegram bot token
+telegram_user_id:  #telegrame user id
+qquid:  #接收通知的qq号
+qqgid:  #监听的群
+qbot_public_mode: true
+default_priority:
+no_ghproxy: false #更新资源是否不使用代理 默认false
+daily_asset_push_cron:
+repos:
+  - git: https://github.com/shufflewzc/faker2.git
