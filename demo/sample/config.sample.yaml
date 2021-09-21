@@ -15,7 +15,7 @@ theme:  #自定义主题，支持本地、网络路径
 static: ./static #静态文件 便于引入css、js等文件
 #master为管理员账户密码
 master: xxxx 
-database: /ql/config/XDD.db #数据库位置
+database: /xdd/conf/XDD.db #数据库位置
 qywx_key:  #企业微信推送key
 daily_push:  #定时任务
 resident:
