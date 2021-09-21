@@ -3,7 +3,6 @@ set -e
 
 dir_shell=/xdd/shell
 . $dir_shell/share.sh
-link_shell
 
 echo -e "======================1. 检测配置文件========================\n"
 fix_config
