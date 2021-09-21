@@ -39,7 +39,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && chmod 777 ${XDD_DIR}/shell/*.sh \
     && chmod 777 ${XDD_DIR}/docker/*.sh \
     && chmod 777 ${XDD_DIR}/XDD-plus \
-    && ln -sf /usr/local/bin/vup ${XDD_DIR}/shell/vup.sh \
+    && ln -sf ${XDD_DIR}/shell/vup.sh /usr/local/bin/vup \
     && npm install -g pnpm \
     && pnpm install -g pm2 \
     && rm -rf /root/.npm \
