@@ -34,7 +34,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && git config --global pull.rebase true \
     && cd ${XDD_DIR} \
     && rm -rf `ls|egrep -v '(demo)'` \
-    && cp -r ${XDD_DIR}/demo/* .
+    && cp -r ${XDD_DIR}/demo/* . \
     && chmod 777 ${XDD_DIR}/shell/*.sh \
     && chmod 777 ${XDD_DIR}/docker/*.sh \
     && chmod 777 ${XDD_DIR}/XDD-plus \
