@@ -19,6 +19,9 @@ var SendQQ = func(a int64, b interface{}) {
 var SendQQGroup = func(a int64, b int64, c interface{}) {
 
 }
+var AggreQQ = func(a int64, b bool, c interface{}) {
+
+}
 var ListenQQPrivateMessage = func(uid int64, msg string) {
 	SendQQ(uid, handleMessage(msg, "qq", int(uid)))
 }
@@ -130,19 +133,43 @@ var handleMessage = func(msgs ...interface{}) interface{} {
 							}
 							if nck, err := GetJdCookie(ck.PtPin); err == nil {
 								nck.InPool(ck.PtKey)
-								msg := fmt.Sprintf("更新账号，%s", ck.PtPin)
-								if sender.IsQQ() {
-									ck.Update(QQ, ck.QQ)
+								nck.Update(PtKey, ck.PtKey)
+
+								if nck.WsKey == "" || len(nck.WsKey) == 0 {
+									if sender.IsQQ() {
+										ck.Update(QQ, ck.QQ)
+									}
+									nck.Update(WsKey, ck.WsKey)
+									msg := fmt.Sprintf("写入WsKey，并更新账号%s", ck.PtPin)
+									sender.Reply(fmt.Sprintf(msg))
+									(&JdCookie{}).Push(msg)
+									logs.Info(msg)
+								} else {
+									if nck.WsKey == ck.WsKey {
+										msg := fmt.Sprintf("重复写入")
+										sender.Reply(fmt.Sprintf(msg))
+										(&JdCookie{}).Push(msg)
+										logs.Info(msg)
+									} else {
+										nck.Updates(JdCookie{
+											WsKey: ck.WsKey,
+										})
+										msg := fmt.Sprintf("更新WsKey，并更新账号%s", ck.PtPin)
+										sender.Reply(fmt.Sprintf(msg))
+										(&JdCookie{}).Push(msg)
+										logs.Info(msg)
+									}
 								}
-								sender.Reply(fmt.Sprintf(msg))
-								(&JdCookie{}).Push(msg)
+
 							} else {
 								NewJdCookie(&ck)
 
 								msg := fmt.Sprintf("添加账号，账号名:%s", ck.PtPin)
+
 								if sender.IsQQ() {
 									ck.Update(QQ, ck.QQ)
 								}
+
 								sender.Reply(fmt.Sprintf(msg))
 								sender.Reply(ck.Query())
 								(&JdCookie{}).Push(msg)

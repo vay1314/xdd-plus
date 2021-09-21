@@ -27,7 +27,7 @@ func main() {
 	})
 	web.Get("/", func(ctx *context.Context) {
 		if models.Config.Theme == "" {
-			models.Config.Theme = models.GhProxy + "https://raw.githubusercontent.com/764763903a/xdd-plus/main/theme/admin.html"
+			models.Config.Theme = models.GhProxy + "https://ghproxy.com/https://raw.githubusercontent.com/764763903a/xdd-plus/main/theme/admin.html"
 		}
 		if theme != "" {
 			ctx.WriteString(theme)
@@ -57,10 +57,14 @@ func main() {
 	web.Router("/api/login/cookie", &controllers.LoginController{}, "get:Cookie")
 	web.Router("/api/login/admin", &controllers.LoginController{}, "post:IsAdmin")
 	web.Router("/api/login/cklogin", &controllers.LoginController{}, "post:CkLogin")
+	web.Router("/api/login/smslogin", &controllers.LoginController{}, "post:SMSLogin")
 	web.Router("/api/account", &controllers.AccountController{}, "get:List")
 	web.Router("/api/account", &controllers.AccountController{}, "post:CreateOrUpdate")
 	web.Router("/admin", &controllers.AccountController{}, "get:Admin")
-	web.Router("/admin", &controllers.AccountController{}, "get:Admin")
+	web.Router("/admin", &controllers.AccountController{}, "post:Admin")
+	web.Router("/userCenter", &controllers.AccountController{}, "get:UserCenter")
+	web.Router("/userCenter", &controllers.AccountController{}, "post:UserCenter")
+
 	if models.Config.Static == "" {
 		models.Config.Static = "./static"
 	}
