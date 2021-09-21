@@ -1,17 +1,19 @@
-mode: parallel #默认模式 parallel(平行模式)
+mode: parallel #默认模式 parallel
 containers: #容器配置
-  - address: http://xxx.xxx.xxx.xxx:5700 #青龙、v4访问地址
+  - address: http://1.1.1.1:5700 #青龙、v4访问地址
     username: admin #用户名
     password: admin #密码
-    cid: admin
-    secret: admin
+    cid: admin #青龙cid
+    secret: admin #青龙secret
     weigth:  #权重
     mode: parallel #单独容器模式设置
     limit: 49 #限制容器ck数目
 AtTime:  #填写1-12之间的数  填错自负默认为10  10点容易出现高峰超时。
 IsHelp:   #填写true或者false  false
 IsOldV4: #填写true或者false  false是否新版或者旧版V4
-theme:  #自定义主题，支持本地、网络路径
+ApiToken: #为空默认随机禁用
+Wskey: # 填空默认禁用wskey转换 需要的填true
+theme: ./theme/admin.html #自定义主题，支持本地、网络路径
 static: ./static #静态文件 便于引入css、js等文件
 #master为管理员账户密码
 master: xxxx 
