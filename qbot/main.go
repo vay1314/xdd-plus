@@ -9,6 +9,7 @@ import (
 	"encoding/hex"
 	"flag"
 	"fmt"
+	"github.com/beego/beego/v2/core/logs"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -75,12 +76,21 @@ func Main() {
 		switch msg.(type) {
 		case string:
 			if bot != nil {
-				bot.SendPrivateMessage(uid, models.Config.QQGroupID, &message.SendingMessage{Elements: []message.IMessageElement{&message.TextElement{Content: msg.(string)}}})
+				if strings.Contains(msg.(string), "data:image") {
+					photo := msg.(string)
+					logs.Info(photo)
+					//b := []byte(photo)
+					//log.Error(b)
+					bot.SendPrivateMessage(uid, models.Config.QQGroupID, &message.SendingMessage{Elements: []message.IMessageElement{&coolq.LocalImageElement{File: "./output.jpg"}}})
+				} else {
+					bot.SendPrivateMessage(uid, models.Config.QQGroupID, &message.SendingMessage{Elements: []message.IMessageElement{&message.TextElement{Content: msg.(string)}}})
+				}
 			}
 		case *http.Response:
 			data, _ := ioutil.ReadAll(msg.(*http.Response).Body)
 			bot.SendPrivateMessage(uid, models.Config.QQGroupID, &message.SendingMessage{Elements: []message.IMessageElement{&coolq.LocalImageElement{Stream: bytes.NewReader(data)}}})
 		}
+
 	}
 	models.SendQQGroup = func(gid int64, uid int64, msg interface{}) {
 		if bot == nil {
@@ -96,12 +106,7 @@ func Main() {
 			bot.SendGroupMessage(gid, &message.SendingMessage{Elements: []message.IMessageElement{&message.AtElement{Target: uid}, &message.TextElement{Content: "\n"}, &coolq.LocalImageElement{Stream: bytes.NewReader(data)}}})
 		}
 	}
-	models.AggreQQ = func(flag int64, b bool, msg interface{}) {
-		if bot == nil {
-			return
-		}
 
-	}
 	coolq.PrivateMessageEventCallback = models.ListenQQPrivateMessage
 	coolq.GroupMessageEventCallback = models.ListenQQGroupMessage
 
@@ -409,7 +414,13 @@ func Main() {
 	}
 	cli.SetOnlineStatus(allowStatus[int(conf.Account.Status)])
 	bot = coolq.NewQQBot(cli, conf)
+
 	_ = bot.Client
+	if models.Config.IsAddFriend {
+		bot.Client.OnNewFriendRequest(func(_ *client.QQClient, a *client.NewFriendRequest) {
+			a.Accept()
+		})
+	}
 	if conf.Message.PostFormat != "string" && conf.Message.PostFormat != "array" {
 		log.Warnf("post-format 配置错误, 将自动使用 string")
 		coolq.SetMessageFormat("string")

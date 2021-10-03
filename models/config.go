@@ -37,6 +37,12 @@ type Yaml struct {
 	IsOldV4             bool   `yaml:"IsOldV4"`
 	ApiToken            string `yaml:"ApiToken"`
 	Wskey               bool   `yaml:"Wskey"`
+	TGURL               string `yaml:"TGURL"`
+	SMSAddress          string `yaml:"SMSAddress"`
+	IsAddFriend         bool   `yaml:"IsAddFriend"`
+	Lim                 int    `yaml:"Lim"`
+	Tyt                 int    `yaml:"Tyt"`
+	IFC                 bool   `yaml:"IFC"`
 	Node                string
 	Npm                 string
 	Python              string
@@ -98,6 +104,9 @@ func initConfig() {
 	}
 	if Config.NoGhproxy {
 		GhProxy = ""
+	}
+	if Config.Tyt == 0 {
+		Config.Tyt = 8
 	}
 	if Config.Database == "" {
 		Config.Database = ExecPath + "/.xdd.db"
